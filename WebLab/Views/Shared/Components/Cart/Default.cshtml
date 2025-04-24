@@ -1,0 +1,6 @@
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model WebLab.Components.CartViewModel
+
+<a asp-controller="Cart" asp-action="Index" class="navbar-text ms-auto">
+    @Model.TotalPrice.ToString("0.00") руб <i class="fa-solid fa-cart-shopping"></i> (@Model.ItemsCount)
+</a>

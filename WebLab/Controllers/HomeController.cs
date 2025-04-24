@@ -1,32 +1,31 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
-using WebLabs.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Collections.Generic;
 
-namespace WebLabs.Controllers
+public class HomeController : Controller
 {
-    public class HomeController : Controller
+    private readonly List<ListDemo> _listData;
+
+    public HomeController()
     {
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        _listData = new List<ListDemo>
         {
-            _logger = logger;
-        }
-
-        public IActionResult Index()
-        {
-            return View(); // Этот метод будет возвращать представление Index.cshtml
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
+            new ListDemo {Id=1, Name="Item 1"},
+            new ListDemo {Id=2, Name="Item 2"},
+            new ListDemo {Id=3, Name="Item 3"}
+        };
     }
+
+    public IActionResult Index()
+    {
+        ViewData["Title"] = "Index";
+        ViewData["Text"] = "Лабораторная работа №2";
+        return View(new SelectList(_listData, "Id", "Name"));
+    }
+}
+
+public class ListDemo
+{
+    public int Id { get; set; }
+    public string Name { get; set; }
 }
