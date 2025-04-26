@@ -1,31 +1,35 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc.Rendering;  // Не забудьте импортировать пространство имен
 
-public class HomeController : Controller
+namespace WebLab.Controllers
 {
-    private readonly List<ListDemo> _listData;
-
-    public HomeController()
+    public class HomeController : Controller
     {
-        _listData = new List<ListDemo>
+        public IActionResult Index()
         {
-            new ListDemo {Id=1, Name="Item 1"},
-            new ListDemo {Id=2, Name="Item 2"},
-            new ListDemo {Id=3, Name="Item 3"}
-        };
-    }
+            // Пример данных для SelectList
+            var options = new SelectList(
+                new List<SelectListItem>
+                {
+                    new SelectListItem { Text = "Option 1", Value = "1" },
+                    new SelectListItem { Text = "Option 2", Value = "2" },
+                    new SelectListItem { Text = "Option 3", Value = "3" }
+                },
+                "Value", // Название свойства, которое будет значением для select
+                "Text"   // Название свойства, которое будет отображаться в списке
+            );
 
-    public IActionResult Index()
-    {
-        ViewData["Title"] = "Index";
-        ViewData["Text"] = "Лабораторная работа №2";
-        return View(new SelectList(_listData, "Id", "Name"));
-    }
-}
+            ViewBag.Text = "Добро пожаловать!";
+            return View(options);
+        }
 
-public class ListDemo
-{
-    public int Id { get; set; }
-    public string Name { get; set; }
+        [HttpGet]
+        public IActionResult FormSubmit(string login, string password, string radioGroup, bool checkbox1, bool checkbox2, string selDemo)
+        {
+            // Обработать данные формы
+            // Например, вывести их в консоль
+            Console.WriteLine($"Login: {login}, Password: {password}, Selected Radio: {radioGroup}, Checkbox1: {checkbox1}, Checkbox2: {checkbox2}, Selected Option: {selDemo}");
+            return View("Index");
+        }
+    }
 }
