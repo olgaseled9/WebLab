@@ -4,6 +4,8 @@ namespace WebLab.Models
 {
     public class ApplicationUser : IdentityUser
     {
-        public string Name { get; set; }
+        public byte[]? AvatarImage { get; set; }
+        public string? AvatarContentType { get; set; }
     }
+
 }

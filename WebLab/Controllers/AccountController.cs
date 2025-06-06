@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using WebLab.Models;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.StaticFiles;
 
 public class AccountController : Controller
 {
@@ -64,6 +65,25 @@ public class AccountController : Controller
             ModelState.AddModelError(string.Empty, error.Description);
         }
         return View();
+    }
+    
+    [HttpPost]
+    public async Task<IActionResult> UploadAvatar(IFormFile avatarFile)
+    {
+        if (avatarFile != null && avatarFile.Length > 0)
+        {
+            using var ms = new MemoryStream();
+            await avatarFile.CopyToAsync(ms);
+            var user = await _userManager.GetUserAsync(User);
+            user.AvatarImage = ms.ToArray();
+
+            var provider = new FileExtensionContentTypeProvider();
+            provider.TryGetContentType(avatarFile.FileName, out string? contentType);
+            user.AvatarContentType = contentType ?? "application/octet-stream";
+
+            await _userManager.UpdateAsync(user);
+        }
+        return RedirectToAction("Index", "Home");
     }
 
     // Выход
