@@ -55,3 +55,5 @@ app.MapRazorPages();
 app.Run();
 
 builder.Services.AddScoped<ICategoryService, MemoryCategoryService>();
+
+builder.Services.AddHttpContextAccessor();

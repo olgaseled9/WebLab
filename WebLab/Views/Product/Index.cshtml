@@ -1,0 +1,32 @@
+@using WebLab.Models
+@model ProductListModel<Dish>
+
+
+@foreach (var item in Model.Items)
+{
+    <div>@item.Name</div>
+}
+
+@{
+    int prev = Model.CurrentPage > 1 ? Model.CurrentPage - 1 : 1;
+    int next = Model.CurrentPage < Model.TotalPages ? Model.CurrentPage + 1 : Model.TotalPages;
+}
+
+<nav>
+    <ul class="pagination">
+        <li class="page-item">
+            <a class="page-link" href="?pageNo=@prev">← Назад</a>
+        </li>
+
+        @for (int i = 1; i <= Model.TotalPages; i++)
+        {
+            <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
+                <a class="page-link" href="?pageNo=@i">@i</a>
+            </li>
+        }
+
+        <li class="page-item">
+            <a class="page-link" href="?pageNo=@next">Вперёд →</a>
+        </li>
+    </ul>
+</nav>
