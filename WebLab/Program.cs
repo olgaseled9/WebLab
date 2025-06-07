@@ -54,9 +54,9 @@ app.MapControllers();
 app.MapRazorPages();
 app.Run();
 
-builder.Services.AddScoped<ICategoryService, MemoryCategoryService>();
-
+builder.Services.AddScoped<DbProductService>();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddScoped<DbProductService>();
+builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddEntityFrameworkStores<ApplicationDbContext>();

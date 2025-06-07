@@ -18,10 +18,13 @@ namespace WebLab.Data
         public DbSet<Dish> Dishes { get; set; } = null!;
         public DbSet<Category> Categories { get; set; } 
         
-        protected override void OnModelCreating(ModelBuilder builder)
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(builder);
-
+            modelBuilder.Entity<Dish>(entity =>
+            {
+                entity.Property(d => d.Price)
+                    .HasColumnType("decimal(18,2)"); 
+            });
         }
     }
 }
