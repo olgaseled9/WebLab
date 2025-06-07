@@ -16,7 +16,8 @@ namespace WebLab.Data
         }
 
         public DbSet<Dish> Dishes { get; set; } = null!;
-
+        public DbSet<Category> Categories { get; set; } 
+        
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

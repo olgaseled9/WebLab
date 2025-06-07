@@ -5,16 +5,16 @@ namespace WebLab.Controllers;
 
 public class ProductController : Controller
 {
-    private readonly MemoryProductService _productService;
+    private readonly DbProductService _productService;
 
-    public ProductController(MemoryProductService productService)
+    public ProductController(DbProductService productService)
     {
         _productService = productService;
     }
 
-    public async Task<IActionResult> Index(int pageNo = 1)
+    public async Task<IActionResult> Index(string? category, int pageNo = 1)
     {
-        var model = await _productService.GetProductListAsync(pageNo);
+        var model = await _productService.GetProductListAsync(category, pageNo);
         return View(model);
     }
 }
